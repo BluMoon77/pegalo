@@ -8,6 +8,12 @@ nothing brought in from a web page or a document keeps its fonts and colors.
 Notes can be written in Markdown and are shown rendered, but every note is
 saved as an ordinary text file, exactly as typed.
 
+![The line being typed shows its Markdown](screenshots/editing.png)
+![After Enter, that line renders](screenshots/after-enter.png)
+
+*Left: the line with the cursor shows its Markdown (`- [x] …`). Right: after
+Enter it renders as ☑, and the new line is the one being edited.*
+
 ## Requirements
 
 Python 3 with GTK 4 (4.12 or newer) and libadwaita (1.5 or newer) through
