@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Pégalo ("stick it"): a moonlit note stuck on with a slanted strip of
+       tape, the tape set at the angle of the accent in its name. -->
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd6f5"/>
+      <stop offset="1" stop-color="#5cbde8"/>
+    </linearGradient>
+  </defs>
+  <g transform="rotate(-5 64 68)">
+    <!-- shadow -->
+    <path d="M22 26h84v60l-24 26H22z" fill="#111621" opacity="0.35" transform="translate(3 4)"/>
+    <!-- page, bottom-right corner curled up -->
+    <path d="M22 26h84v60l-24 26H22z" fill="url(#page)"/>
+    <path d="M106 86l-24 26c2-10 1-18-4-24 8 1 18 0 28-2z" fill="#1c458d"/>
+    <!-- crescent moon -->
+    <path d="M52 50a16 16 0 1 0 18 22a13 13 0 1 1-18-22z" fill="#171c26"/>
+    <!-- lines of text -->
+    <rect x="76" y="56" width="18" height="5" rx="2.5" fill="#171c26" opacity="0.55"/>
+    <rect x="76" y="68" width="14" height="5" rx="2.5" fill="#171c26" opacity="0.55"/>
+    <rect x="34" y="92" width="38" height="5" rx="2.5" fill="#171c26" opacity="0.55"/>
+  </g>
+  <!-- tape, slanted like the accent in é -->
+  <rect x="56" y="12" width="20" height="32" rx="2" fill="#e2e8f2" opacity="0.8"
+        transform="rotate(35 66 28)"/>
+</svg>
