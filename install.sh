@@ -9,13 +9,9 @@
 set -eu
 HERE=$(cd "$(dirname "$0")" && pwd)
 ID=local.blumoon.Pegalo
-OLD_ID=local.rene.Stickies   # the name before Pégalo
 APPS="$HOME/.local/share/applications"
 ICONS="$HOME/.local/share/icons/hicolor/scalable/apps"
 AUTO="$HOME/.config/autostart"
-
-# A launcher left from the old name would open a second, separate app.
-rm -f "$APPS/$OLD_ID.desktop" "$ICONS/$OLD_ID.svg" "$AUTO/$OLD_ID.desktop"
 
 if [ "${1:-}" = "--uninstall" ]; then
     rm -f "$APPS/$ID.desktop" "$ICONS/$ID.svg" "$AUTO/$ID.desktop"
