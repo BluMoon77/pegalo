@@ -55,6 +55,7 @@ ACCENT    = "#5cbde8"   # --accent (moonlight)
 ACCENT_HI = "#8fd6f5"   # --accent-hi
 ACCENT_IN = "#1c458d"   # --accent-in
 DEFAULT_SIZE = (260, 260)
+FONT_PT = 11.5
 
 # Rendered Markdown keeps to the one text color: headings are only bigger and
 # bold, and nothing is accent-colored. (A first try that colored everything
@@ -90,7 +91,7 @@ window.note textview text {{
     background-color: transparent;
     color: {TEXT};
     caret-color: {ACCENT_HI};
-    font-size: 11.5pt;
+    font-size: {FONT_PT}pt;
 }}
 window.note textview text selection {{ background-color: {ACCENT_IN}; color: {TEXT}; }}
 window.note scrolledwindow undershoot {{ background: none; }}
@@ -236,6 +237,8 @@ class NoteView(Gtk.TextView):
             for n, (line, info) in enumerate(zip(text.split("\n"), parse(text))):
                 for s, e, tag in info.styles:
                     self._tag(tag, off + s, off + e)
+                if info.hang:
+                    self._tag(self._hang_tag(line[:info.hang]), off, off + len(line))
                 if not first <= n <= last:
                     for s, e in info.hidden:
                         self._tag("hidden", off + s, off + e)
@@ -246,6 +249,23 @@ class NoteView(Gtk.TextView):
                 off += len(line) + 1
         self.queue_draw()
         return GLib.SOURCE_REMOVE
+
+    def _hang_tag(self, prefix):
+        # A hanging indent: the first line starts at the margin as usual and
+        # the lines it wraps onto start under the item's text. The marker is
+        # the same characters rendered or not (glyphs draw over them), so
+        # one tag per marker width covers both.
+        layout = self.create_pango_layout(prefix)
+        # The widget's own font isn't the note's: CSS sets that on the text.
+        font = layout.get_context().get_font_description()
+        font.set_size(int(FONT_PT * Pango.SCALE))
+        layout.set_font_description(font)
+        width = layout.get_pixel_size()[0]
+        name = f"hang-{width}"
+        if not self.get_buffer().get_tag_table().lookup(name):
+            # A negative indent hangs every line but the first by that much.
+            self.get_buffer().create_tag(name, indent=-width)
+        return name
 
     def _tag(self, name, start, end):
         b = self.get_buffer()

@@ -81,6 +81,14 @@ class TestParse(unittest.TestCase):
         info = one("  - nested")
         self.assertEqual(info.glyph, (2, 3, "bullet"))
 
+    def test_list_items_hang_at_their_text(self):
+        self.assertEqual(one("- item").hang, 2)
+        self.assertEqual(one("  * nested").hang, 4)
+        self.assertEqual(one("- [ ] task").hang, 6)
+        self.assertEqual(one("12. twelfth").hang, 4)
+        for line in ("plain", "# Title", "> quote", "---", "-no space"):
+            self.assertEqual(one(line).hang, 0, line)
+
     def test_numbered_list_left_alone(self):
         info = self.check("1. first", "1. first")
         self.assertIsNone(info.glyph)

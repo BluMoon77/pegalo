@@ -18,6 +18,7 @@ HEADING = re.compile(r"^(#{1,6})\s+")
 RULE    = re.compile(r"^\s*([-*_])(\s*\1){2,}\s*$")
 TASK    = re.compile(r"^\s*([-*+]) (\[([ xX])\])\s")
 BULLET  = re.compile(r"^\s*([-*+])\s")
+NUMBER  = re.compile(r"^\s*\d+[.)]\s")
 QUOTE   = re.compile(r"^\s*>+\s?")
 
 # Inline spans: group 2 is the content and everything around it is markup.
@@ -35,6 +36,7 @@ class Line(NamedTuple):
     styles: list    # (start, end, tag): formatting, shown whether or not rendered
     hidden: list    # (start, end): markup that disappears when rendered
     glyph: tuple    # (start, end, kind) drawn over with a symbol, or None
+    hang: int = 0   # list items: where the text starts, so wrapped lines line up there
 
 
 def parse(text):
@@ -52,7 +54,7 @@ def parse(text):
 
 
 def _parse_line(line):
-    styles, hidden, glyph = [], [], None
+    styles, hidden, glyph, hang = [], [], None, 0
     n = len(line)
     if m := HEADING.match(line):
         styles.append((0, n, f"h{min(len(m.group(1)), 3)}"))
@@ -66,13 +68,17 @@ def _parse_line(line):
         glyph = (m.start(1), m.end(2), "done" if done else "todo")
         if done:
             styles.append((m.end(2), n, "done"))
+        hang = m.end()
     elif m := BULLET.match(line):
         glyph = (m.start(1), m.end(1), "bullet")
+        hang = m.end()
+    elif m := NUMBER.match(line):
+        hang = m.end()
     elif m := QUOTE.match(line):
         styles.append((0, n, "quote"))
         hidden.append((0, m.end()))
     _parse_inline(line, styles, hidden)
-    return Line(styles, hidden, glyph)
+    return Line(styles, hidden, glyph, hang)
 
 
 def _parse_inline(line, styles, hidden):
