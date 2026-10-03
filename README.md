@@ -36,13 +36,6 @@ folder where it is. To update, `git pull` in it; there is nothing to reinstall.
 To remove the launcher, icon and autostart entry, run `./install.sh --uninstall`.
 Your notes stay where they are.
 
-### Coming from Stickies
-
-Pégalo used to be called Stickies. Close every note first, so the old app
-isn't running, then run `./install.sh` again. It removes the old launcher, and
-the first start moves your notes from `~/.local/share/stickies/` to
-`~/.local/share/pegalo/`.
-
 ## Use
 
 | | |
