@@ -1,7 +1,6 @@
 # Pégalo
 
-Plain-text sticky notes for GNOME, in the dark BluMoon palette. *Pégalo* is
-Spanish for "stick it".
+Plain-text sticky notes for GNOME, in the dark BluMoon palette.
 
 Each note is its own small window. **Ctrl+V always pastes plain text**, so
 nothing brought in from a web page or a document keeps its fonts and colors.
